@@ -26,10 +26,10 @@ num NUM( //num takes in a signed bit, 8bin integer and 23bit decimal place
     int,
     dec //only accepts 1dp
 ); //
-integer testfile;
-initial begin
-    testfile=$fopen("test6.txt","w");
-end
+//integer testfile;
+//initial begin
+//    testfile=$fopen("test6.txt","w");
+//end
 //to get the random numbers, modify the below 7 variables and run for a random amount of time
 //the random numbers will appear as x1 x2, y1 y2 values
 //these position values correspond to the position of the masses for the chaotic pendulum during operation
@@ -99,8 +99,8 @@ symbol[0] = "+";
 //symbol[x1[31]], x1[30:23], x1[7:0], symbol[y1[31]], y1[30:23], y1[7:0],
 
 //symbol[x2[31]], x2[30:23], x2[7:0],  symbol[y2[31]], y2[30:23], y2[7:0]);
-$display("RNG = %d", RNG);
-$fwrite(testfile,"%d\n",RNG);
+//$display("RNG = %d", RNG);
+//$fwrite(testfile,"%d\n",RNG);
 end
 
 endmodule
