@@ -30,7 +30,10 @@ module prng_top_module(
     input sensor_drdy,
     
     //External ADC Pin
-    input port_din,
+    output adc_din,
+    output adc_clk,
+    output adc_csn,
+    input  adc_dout,
     
     //Debug Outputs
     output [1:0] led,
@@ -42,7 +45,8 @@ module prng_top_module(
     assign rstn = ~btnR;
     
     //Magnet Sensor Variables
-    magnet_sensor mag(clk, rst, i2c_sda, i2c_scl, sensor_drdy, led, led_rgb);
+    wire [15:0] DXR, DZR, DYR;
+    magnet_sensor mag(clk, rst, i2c_sda, i2c_scl, sensor_drdy, DXR, DZR, DYR);
        
     //External ADC variables        
     reg [1:0] mode;
@@ -50,5 +54,7 @@ module prng_top_module(
     wire port_dout;
     wire port_clk;
     wire port_cs;    
-    drv_mcp3202 ext_adc(rstn, clk, ap_ready, ap_vaild, mode, ext_adc_data, port_din, port_dout, port_clk, port_cs);
+    drv_mcp3202 ext_adc(rstn, clk, ap_ready, ap_vaild, mode, ext_adc_data, adc_din, adc_dout, adc_clk, adc_csn);
+
+
 endmodule
