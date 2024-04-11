@@ -1,7 +1,6 @@
 module magnet_sensor(input clk, input rst, inout i2c_sda, inout wire i2c_scl, input sensor_drdy, output reg [15:0] DXR, output reg [15:0] DZR, output reg [15:0] DYR);
      
     //I2C Variables
-    wire rst;
     reg enable;
     reg rw; //0 = write, 1 = read
     reg [7:0] data_in;
@@ -23,8 +22,6 @@ module magnet_sensor(input clk, input rst, inout i2c_sda, inout wire i2c_scl, in
     STATE_READ_DATA = 4'h6;
     
     reg [2:0] state_num = STATE_INIT;
-    
-    reg [15:0] DXR, DZR, DYR;
     localparam INIT_DATA_LEN = 7;
     reg [8:0] init_data [INIT_DATA_LEN-1:0];
     localparam HMC5883L_ADDR = 7'h3C;
@@ -34,12 +31,6 @@ module magnet_sensor(input clk, input rst, inout i2c_sda, inout wire i2c_scl, in
     localparam [7:0] MODE_VAL = 8'h01;  // Data: 0x01 means Single Mode
     localparam [7:0] READ_VAL = 8'h06; //Data: Read all 6 data points
     reg [23:0] ctr; //to output data every 1s
-    
-    //assign output
-    assign led_rgb = {DXR[ctr[22:20]],DXR[ctr[22:20]-1>0?ctr[22:20]-1:0],DXR[ctr[22:20]-2>0?ctr[22:20]-2:0]};;
-    assign led[0] = rst ? rst : ctr[23];
-    assign led[1] = sensor_drdy;
-    assign rst = btnR;
     
     always @(posedge clk, posedge rst) begin
         if(rst) begin
@@ -127,7 +118,4 @@ module magnet_sensor(input clk, input rst, inout i2c_sda, inout wire i2c_scl, in
             endcase
         end
     end    
-    
-	
-
 endmodule
