@@ -34,7 +34,19 @@ module prng_top_module(
     
     //Debug Outputs
     output [1:0] led,
-    output [2:0] led_rgb
+    output [2:0] led_rgb,
+    
+    //Variables for RNG
+    input [31:0]A, //1 pos/neg bit, 7 round bits, no decimals
+    input [31:0]B, //total of 8 bits
+    input [0:0]sign,
+    input [7:0]int,
+    input [22:0]dec,
+    output[31:0]x_1,
+    output[31:0]x_2,
+    output[31:0]y_1,
+    output[31:0]y_2,
+    output[31:0]RNG
     );
     
     wire rst, rstn;
@@ -43,6 +55,8 @@ module prng_top_module(
     
     //Magnet Sensor Variables
     magnet_sensor mag(clk, rst, i2c_sda, i2c_scl, sensor_drdy, led, led_rgb);
+    Math MATH(A,B);
+    DP dp( clk,x0,y0,g,m1,m2,l1,l2,RNG,x_1, x_2,y_1,y_2);
        
     //External ADC variables        
     reg [1:0] mode;

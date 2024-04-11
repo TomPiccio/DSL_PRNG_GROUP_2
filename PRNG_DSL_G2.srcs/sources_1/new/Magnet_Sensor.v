@@ -1,4 +1,4 @@
-module magnet_sensor(input clk, input btnR, inout i2c_sda, inout wire i2c_scl, input sensor_drdy, output [1:0] led, output [2:0] led_rgb);
+module magnet_sensor(input clk, input rst, inout i2c_sda, inout wire i2c_scl, input sensor_drdy, output reg [15:0] DXR, output reg [15:0] DZR, output reg [15:0] DYR);
      
     //I2C Variables
     wire rst;
@@ -25,7 +25,6 @@ module magnet_sensor(input clk, input btnR, inout i2c_sda, inout wire i2c_scl, i
     reg [2:0] state_num = STATE_INIT;
     
     reg [15:0] DXR, DZR, DYR;
-    
     localparam INIT_DATA_LEN = 7;
     reg [8:0] init_data [INIT_DATA_LEN-1:0];
     localparam HMC5883L_ADDR = 7'h3C;

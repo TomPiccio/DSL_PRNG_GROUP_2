@@ -179,3 +179,99 @@ dismissDialog("Add Sources"); // c
 // HMemoryUtils.trashcanNow. Engine heap size: 1,100 MB. GUI used memory: 75 MB. Current time: 4/11/24, 7:28:54 PM SGT
 // Elapsed Time for: 'L.f': 02m:00s
 // Elapsed Time for: 'L.f': 02m:02s
+// Elapsed time: 401 seconds
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, prng_top_module (prng_top_module.v)]", 1, true); // E - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, prng_top_module (prng_top_module.v)]", 1, true, false, false, false, false, true); // E - Double Click - Node
+// Elapsed time: 325 seconds
+selectCodeEditor("prng_top_module.v", 185, 157); // ad
+selectCodeEditor("prng_top_module.v", 218, 85); // ad
+selectCodeEditor("prng_top_module.v", 185, 183); // ad
+selectCodeEditor("prng_top_module.v", 219, 158); // ad
+selectCodeEditor("prng_top_module.v", 28, 159); // ad
+// Elapsed time: 52 seconds
+typeControlKey((HResource) null, "prng_top_module.v", 'v'); // ad
+selectCodeEditor("prng_top_module.v", 77, 168); // ad
+selectCodeEditor("prng_top_module.v", 76, 153); // ad
+selectCodeEditor("prng_top_module.v", 236, 103); // ad
+selectCodeEditor("prng_top_module.v", 73, 160); // ad
+selectCodeEditor("prng_top_module.v", 256, 276); // ad
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 15m:08s
+// Elapsed Time for: 'L.f': 15m:10s
+// Elapsed time: 35 seconds
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "Project Summary", 0); // o
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "prng_top_module.v", 1); // o
+selectCodeEditor("prng_top_module.v", 707, 208); // ad
+typeControlKey((HResource) null, "prng_top_module.v", 'v'); // ad
+selectCodeEditor("prng_top_module.v", 136, 223); // ad
+selectCodeEditor("prng_top_module.v", 788, 216); // ad
+selectCodeEditor("prng_top_module.v", 780, 225); // ad
+// Elapsed time: 13 seconds
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "Project Summary", 0); // o
+selectTab("PlanAheadTabBaseWorkspace_JideTabbedPane", (HResource) null, "prng_top_module.v", 1); // o
+typeControlKey((HResource) null, "prng_top_module.v", 'v'); // ad
+selectCodeEditor("prng_top_module.v", 101, 112); // ad
+selectCodeEditor("prng_top_module.v", 360, 136); // ad
+selectCodeEditor("prng_top_module.v", 77, 243); // ad
+selectCodeEditor("prng_top_module.v", 33, 138); // ad
+selectCodeEditor("prng_top_module.v", 35, 138); // ad
+selectCodeEditor("prng_top_module.v", 35, 146); // ad
+selectCodeEditor("prng_top_module.v", 32, 135); // ad
+selectCodeEditor("prng_top_module.v", 36, 143); // ad
+selectCodeEditor("prng_top_module.v", 36, 135); // ad
+selectCodeEditor("prng_top_module.v", 35, 141); // ad
+selectCodeEditor("prng_top_module.v", 29, 144); // ad
+selectCodeEditor("prng_top_module.v", 37, 133); // ad
+selectCodeEditor("prng_top_module.v", 36, 141); // ad
+selectCodeEditor("prng_top_module.v", 2, 132); // ad
+selectCodeEditor("prng_top_module.v", 554, 113); // ad
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 16m:48s
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 16m:50s
+// Tcl Message: update_compile_order -fileset sources_1 
+// Elapsed Time for: 'L.f': 16m:52s
+// Elapsed Time for: 'L.f': 16m:54s
+// Elapsed time: 137 seconds
+selectCodeEditor("prng_top_module.v", 285, 265); // ad
+// Elapsed time: 12 seconds
+expandTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, prng_top_module (prng_top_module.v)]", 1); // E
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, prng_top_module (prng_top_module.v), mag : magnet_sensor (Magnet_Sensor.v)]", 2, true); // E - Node
+selectTree(PAResourceEtoH.FileSetPanel_FILE_SET_PANEL_TREE, "[root, Design Sources, prng_top_module (prng_top_module.v), mag : magnet_sensor (Magnet_Sensor.v)]", 2, true, false, false, false, false, true); // E - Double Click - Node
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 19m:32s
+// Elapsed Time for: 'L.f': 19m:34s
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 21m:08s
+// TclEventType: FILE_SET_CHANGE
+// TclEventType: DG_GRAPH_STALE
+// Elapsed Time for: 'L.f': 21m:10s
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 21m:12s
+// Tcl Message: update_compile_order -fileset sources_1 
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 21m:14s
+// Elapsed Time for: 'L.f': 21m:16s
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 21m:30s
+// Elapsed Time for: 'L.f': 21m:32s
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 21m:34s
+// Elapsed Time for: 'L.f': 21m:36s
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 22m:04s
+// TclEventType: DG_GRAPH_STALE
+// TclEventType: FILE_SET_CHANGE
+// Elapsed Time for: 'L.f': 22m:06s
+// Tcl Message: update_compile_order -fileset sources_1 
+// Elapsed Time for: 'L.f': 22m:08s
+// Elapsed Time for: 'L.f': 22m:10s
