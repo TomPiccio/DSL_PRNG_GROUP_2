@@ -52,7 +52,38 @@ module prng_top_module(
     input [1:0] xa_n,
     input [1:0] xa_p,
     input vp_in,
-    input vn_in
+    input vn_in,
+    
+    //UART , ADC, Display
+    input sysclk,
+    input [1:0] btn,
+    output pio37,
+    output pio38,
+    output pio39,
+    output pio40,
+    output pio41,
+    output pio42,
+    output pio43,
+    output pio44,
+    output pio45,
+    output pio46,
+    output pio47,
+    output pio48,
+    //output [1:0] led, already declared
+    //External ADC MCP3202 1;
+    output adc_din1,
+    output adc_clk1,
+    output adc_csn1,
+    input  adc_dout1,
+    //External ADC MCP3202 2;
+    output adc_din2,
+    output adc_clk2,
+    output adc_csn2,
+    input  adc_dout2,
+    
+    //UART
+    input pio20, //UART - RX;
+    output pio21 //UART - TX;    
     );
     
     wire rst, rstn;
@@ -126,4 +157,149 @@ module prng_top_module(
     end
     DP dp(clk,x0,y0,g,m1,m2,l1,l2,RNG,x_1, x_2,y_1,y_2);
     
+    
+    //Michelle
+    //CLOCK TREE CONFIG;
+wire CLK500Hz,CLK9600, CLK1Hz,CLK_ADC;
+
+clock_div clk_div_u0(rstn,sysclk,CLK9600);
+clock_div clk_div_u1(rstn,sysclk,CLK500Hz);
+clock_div clk_div_u2(rstn,CLK500Hz,CLK1Hz);
+clock_div clk_div_u3(rstn,sysclk,CLK_ADC);
+
+defparam clk_div_u0.FREQ_INPUT  = 12_000_000;
+defparam clk_div_u0.FREQ_OUTPUT = 9600;
+defparam clk_div_u1.FREQ_INPUT  = 12_000_000;
+defparam clk_div_u1.FREQ_OUTPUT = 500;
+defparam clk_div_u2.FREQ_INPUT  = 500;
+defparam clk_div_u2.FREQ_OUTPUT = 1;
+defparam clk_div_u3.FREQ_INPUT  = 12_000_000;
+defparam clk_div_u3.FREQ_OUTPUT = 2_000_000;
+
+//7SEGMENT DISPLAY CONFIG;
+reg [11:0] Segment_data;
+drv_segment segment_u0(rstn,CLK500Hz,{4'h0,Segment_data},{pio43,pio46,pio47,pio37},{pio40,pio38,pio45,pio42,pio41,pio39,pio48,pio44});
+
+        
+//EXTERNAL ADC MCP3202 CONFIG;
+// DRV FREQ : 2MHZ;
+// CHANNEL : ONLY CHANNEL 0; 
+localparam  SINGLE_CHAN0  = 2'b10;
+localparam  SINGLE_CHAN1  = 2'b11;
+
+reg adc_ready1;
+reg adc_ready2;
+wire adc_valid1;
+wire adc_valid2;
+wire [11:0] adc_data1;
+wire [11:0] adc_data2;
+reg [11:0] adc_data_mode0; //Use these for pRNG
+reg [11:0] adc_data_mode1;
+reg [11:0] adc_data_mode2;
+reg [11:0] adc_data_mode3;
+
+// Display mode toggles between 0 and 3 to cycle through sensor data
+reg [1:0] current_display_mode = 0;  
+
+always @(posedge CLK1Hz or negedge rstn) begin
+    if (!rstn) begin
+        current_display_mode <= 0;
+    end else begin
+        current_display_mode <= (current_display_mode + 1) % 4;  // Cycle through display modes every second
+    end
+end
+
+drv_mcp3202 drv_mcp3202_u0(
+    .rstn(rstn),
+    .clk(CLK_ADC),
+    .ap_ready(adc_ready1),
+    .ap_valid(adc_valid1),
+    .mode((current_display_mode < 2) ? SINGLE_CHAN0 : SINGLE_CHAN1),
+    .data(adc_data1),
+    .port_din(adc_dout1),
+    .port_dout(adc_din1), 
+    .port_clk(adc_clk1),
+    .port_cs(adc_csn1)
+);
+
+drv_mcp3202_2 drv_mcp3202_2_u0(
+    .rstn(rstn),
+    .clk(CLK_ADC),
+    .ap_ready(adc_ready2),
+    .ap_valid(adc_valid2),
+    .mode((current_display_mode % 2) ? SINGLE_CHAN1 : SINGLE_CHAN0),
+    .data(adc_data2),
+    .port_din2(adc_dout2),
+    .port_dout2(adc_din2), 
+    .port_clk2(adc_clk2),
+    .port_cs2(adc_csn2)
+);
+
+always @(posedge adc_valid1) begin
+    if (current_display_mode < 2)
+        adc_data_mode0 <= adc_data1;  // CH0 of ADC1
+    else
+        adc_data_mode1 <= adc_data1;  // CH1 of ADC1
+end
+
+always @(posedge adc_valid2) begin
+    if (current_display_mode % 2 == 0)
+        adc_data_mode2 <= adc_data2;  // CH0 of ADC2
+    else
+        adc_data_mode3 <= adc_data2;  // CH1 of ADC2
+end
+
+// Display logic
+always @(posedge CLK1Hz or negedge rstn) begin
+    if (!rstn) begin
+        adc_ready1 <= 1'b0;
+        adc_ready2 <= 1'b0;
+        Segment_data <= 12'h000;
+    end else begin
+        case (current_display_mode)
+            0: Segment_data <= adc_data_mode0;
+            1: Segment_data <= adc_data_mode1;
+            2: Segment_data <= adc_data_mode2;
+            3: Segment_data <= adc_data_mode3;
+        endcase
+        adc_ready1 <= 1'b1;
+        adc_ready2 <= 1'b1;
+    end
+end
+
+
+//UART START------------------------------------//
+
+uart_tx uart_tx_u0(CLK9600,rstn,uart_ready,uart_vaild,pio21,1'b0,uart_tx_data);
+reg uart_ready;
+reg data_index;
+reg uart_tx_data;
+reg [31:0] data_array;
+
+always@(posedge CLK500Hz,negedge rstn)begin
+    if (!rstn)begin
+        uart_ready <= 1'b0;
+    end else begin
+        if (uart_vaild) uart_ready <= 1'b0;
+        else if(!uart_ready) uart_ready <= 1'b1;
+    end
+end
+
+always @(posedge sysclk) begin
+    if (~btn[1]) begin
+        data_index <= 2'b00;
+    end else begin
+        if (data_index < 2'b10) begin
+            data_index <= data_index + 1'b1;
+        end else begin
+            data_index <= 2'b00;
+        end
+        uart_tx_data <= data_array[data_index];
+    end
+end
+
+always @(posedge CLK9600) begin
+    data_array = RNG;
+end
+//UART END-------------------------------------------------------//
 endmodule
