@@ -147,16 +147,16 @@ module prng_top_module(
     num num0(sign,int,dec);
     Math MATH(A,B);
     always @ (posedge clk) begin
-    x0 =num0.bin(DZR[15],DZR[14:7],DZR[6:0]); //location of center - X
-    y0 =num0.bin(0,8'd2,23'd37); //location of center - Y
+    x0 =num0.bin(adc_data_mode3[11],adc_data_mode3[10:4],adc_data_mode3[3:0]); //location of center - X
+    y0 =num0.bin(adc_data_mode0[11],adc_data_mode0[10:4],adc_data_mode0[3:0]); //location of center - Y
     g = num0.bin(0,ADC_data[15:8],ADC_data[7:0]); //gravity
     m1 =num0.bin(DXR[15],DXR[14:7],DXR[6:0]); //mass 1 change this
-    m2 =num0.bin(0,8'd3,23'd44); //mass 2 change this
+    m2 =num0.bin(adc_data_mode1[11],adc_data_mode1[10:4],adc_data_mode1[3:0]); //mass 2 change this
     l1 =num0.bin(DYR[15],DYR[14:7],DYR[6:0]); //length 1 change this
-    l2 =num0.bin(0,8'd33,23'd33); //length 2 change this
+    l2 =num0.bin(adc_data_mode2[11],adc_data_mode2[10:4],adc_data_mode2[3:0]); //length 2 change this
     end
     DP dp(clk,x0,y0,g,m1,m2,l1,l2,RNG,x_1, x_2,y_1,y_2);
-    
+    //adc_data_mode0 1 2 3
     
     //Michelle
     //CLOCK TREE CONFIG;
@@ -250,22 +250,22 @@ always @(posedge adc_valid2) begin
 end
 
 // Display logic
-always @(posedge CLK1Hz or negedge rstn) begin
-    if (!rstn) begin
-        adc_ready1 <= 1'b0;
-        adc_ready2 <= 1'b0;
-        Segment_data <= 12'h000;
-    end else begin
-        case (current_display_mode)
-            0: Segment_data <= adc_data_mode0;
-            1: Segment_data <= adc_data_mode1;
-            2: Segment_data <= adc_data_mode2;
-            3: Segment_data <= adc_data_mode3;
-        endcase
-        adc_ready1 <= 1'b1;
-        adc_ready2 <= 1'b1;
-    end
-end
+//always @(posedge CLK1Hz or negedge rstn) begin
+//    if (!rstn) begin
+//        adc_ready1 <= 1'b0;
+//        adc_ready2 <= 1'b0;
+//        Segment_data <= 12'h000;
+//    end else begin
+//        case (current_display_mode)
+//            0: Segment_data <= adc_data_mode0;
+//            1: Segment_data <= adc_data_mode1;
+//            2: Segment_data <= adc_data_mode2;
+//            3: Segment_data <= adc_data_mode3;
+//        endcase
+//        adc_ready1 <= 1'b1;
+//        adc_ready2 <= 1'b1;
+//    end
+//end
 
 
 //UART START------------------------------------//
