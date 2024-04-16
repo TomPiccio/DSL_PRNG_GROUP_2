@@ -33,15 +33,15 @@ module prng_top_module(
     input port_din,
     
     //Debug Outputs
-    output [1:0] led,
-    output [2:0] led_rgb,
+    //output [1:0] led,
+    //output [2:0] led_rgb,
     
     //Variables for RNG
-    input [31:0]A, //1 pos/neg bit, 7 round bits, no decimals
-    input [31:0]B, //total of 8 bits
-    input [0:0]sign,
-    input [7:0]int,
-    input [22:0]dec,
+    //input [31:0]A, //1 pos/neg bit, 7 round bits, no decimals
+    //input [31:0]B, //total of 8 bits
+    //input [0:0]sign,
+    //input [7:0]int,
+    //input [22:0]dec,
     output[31:0]x_1,
     output[31:0]x_2,
     output[31:0]y_1,
@@ -89,6 +89,21 @@ module prng_top_module(
     wire rst, rstn;
     assign rst = btnR;
     assign rstn = ~btnR;
+    //Clock
+    wire CLK500Hz,CLK9600, CLK1Hz,CLK_ADC;
+
+    clock_div clk_div_u0(rstn,sysclk,CLK9600);
+    clock_div clk_div_u1(rstn,sysclk,CLK500Hz);
+    clock_div clk_div_u2(rstn,CLK500Hz,CLK1Hz);
+    clock_div clk_div_u3(rstn,sysclk,CLK_ADC);
+    defparam clk_div_u0.FREQ_INPUT  = 12_000_000;
+    defparam clk_div_u0.FREQ_OUTPUT = 9600;
+    defparam clk_div_u1.FREQ_INPUT  = 12_000_000;
+    defparam clk_div_u1.FREQ_OUTPUT = 500;
+    defparam clk_div_u2.FREQ_INPUT  = 500;
+    defparam clk_div_u2.FREQ_OUTPUT = 1;
+    defparam clk_div_u3.FREQ_INPUT  = 12_000_000;
+    defparam clk_div_u3.FREQ_OUTPUT = 2_000_000;
     
     //Magnet Sensor Variables
     wire [15:0] DXR, DZR, DYR;
@@ -96,7 +111,7 @@ module prng_top_module(
        
     //External ADC variables        
     reg [1:0] mode;
-    reg [11:0] ext_adc_data;
+    wire [11:0] ext_adc_data;
     wire port_dout;
     wire port_clk;
     wire port_cs;    
@@ -113,15 +128,15 @@ module prng_top_module(
     wire [15:0] ADC_data;                //XADC data  
     xadc_wiz_0 ADC1
     (
-    .daddr_in(PIN16_ADDR),        // Address bus for the dynamic reconfiguration port
+    .daddr_in(PIN15_ADDR),        // Address bus for the dynamic reconfiguration port
     .dclk_in(sysclk),             // Clock input for the dynamic reconfiguration port
     .den_in(enable),              // Enable Signal for the dynamic reconfiguration port
     .di_in(0),                    // Input data bus for the dynamic reconfiguration port
     .dwe_in(0),                   // Write Enable for the dynamic reconfiguration port
-    .vauxp12(xa_p[1]),
-    .vauxn12(xa_n[1]),
-    .vauxp4(xa_p[0]),
-    .vauxn4(xa_n[0]),  
+    .vauxp12(xa_p[0]),
+    .vauxn12(xa_n[0]),
+    .vauxp4(xa_p[1]),
+    .vauxn4(xa_n[1]),  
     .busy_out(),                 // ADC Busy signal
     .channel_out(),              // Channel Selection Outputs
     .do_out(ADC_data),           // Output data bus for dynamic reconfiguration port
@@ -130,57 +145,7 @@ module prng_top_module(
     .vp_in(vp_in),               // Dedicated Analog Input Pair
     .vn_in(vn_in)
     );
-    
-    //Creating pRNG
-    reg [31:0]x0;
-    reg [31:0]y0;
-    reg [31:0]g;
-    reg [31:0]m1;
-    reg [31:0]m2;
-    reg [31:0]l1;
-    reg [31:0]l2;
-//    wire[31:0]x_1;
-//    wire[31:0]x_2;
-//    wire[31:0]y_1;
-//    wire[31:0]y_2;
-//    wire[31:0]RNG;
-    num num0(sign,int,dec);
-    Math MATH(A,B);
-    always @ (posedge clk) begin
-    x0 =num0.bin(adc_data_mode3[11],adc_data_mode3[10:4],adc_data_mode3[3:0]); //location of center - X
-    y0 =num0.bin(adc_data_mode0[11],adc_data_mode0[10:4],adc_data_mode0[3:0]); //location of center - Y
-    g = num0.bin(0,ADC_data[15:8],ADC_data[7:0]); //gravity
-    m1 =num0.bin(DXR[15],DXR[14:7],DXR[6:0]); //mass 1 change this
-    m2 =num0.bin(adc_data_mode1[11],adc_data_mode1[10:4],adc_data_mode1[3:0]); //mass 2 change this
-    l1 =num0.bin(DYR[15],DYR[14:7],DYR[6:0]); //length 1 change this
-    l2 =num0.bin(adc_data_mode2[11],adc_data_mode2[10:4],adc_data_mode2[3:0]); //length 2 change this
-    end
-    DP dp(clk,x0,y0,g,m1,m2,l1,l2,RNG,x_1, x_2,y_1,y_2);
-    //adc_data_mode0 1 2 3
-    
-    //Michelle
-    //CLOCK TREE CONFIG;
-wire CLK500Hz,CLK9600, CLK1Hz,CLK_ADC;
 
-clock_div clk_div_u0(rstn,sysclk,CLK9600);
-clock_div clk_div_u1(rstn,sysclk,CLK500Hz);
-clock_div clk_div_u2(rstn,CLK500Hz,CLK1Hz);
-clock_div clk_div_u3(rstn,sysclk,CLK_ADC);
-
-defparam clk_div_u0.FREQ_INPUT  = 12_000_000;
-defparam clk_div_u0.FREQ_OUTPUT = 9600;
-defparam clk_div_u1.FREQ_INPUT  = 12_000_000;
-defparam clk_div_u1.FREQ_OUTPUT = 500;
-defparam clk_div_u2.FREQ_INPUT  = 500;
-defparam clk_div_u2.FREQ_OUTPUT = 1;
-defparam clk_div_u3.FREQ_INPUT  = 12_000_000;
-defparam clk_div_u3.FREQ_OUTPUT = 2_000_000;
-
-//7SEGMENT DISPLAY CONFIG;
-reg [11:0] Segment_data;
-drv_segment segment_u0(rstn,CLK500Hz,{4'h0,Segment_data},{pio43,pio46,pio47,pio37},{pio40,pio38,pio45,pio42,pio41,pio39,pio48,pio44});
-
-        
 //EXTERNAL ADC MCP3202 CONFIG;
 // DRV FREQ : 2MHZ;
 // CHANNEL : ONLY CHANNEL 0; 
@@ -215,7 +180,7 @@ drv_mcp3202 drv_mcp3202_u0(
     .ap_ready(adc_ready1),
     .ap_valid(adc_valid1),
     .mode((current_display_mode < 2) ? SINGLE_CHAN0 : SINGLE_CHAN1),
-    .data(adc_data1),
+    .data(adc_data),
     .port_din(adc_dout1),
     .port_dout(adc_din1), 
     .port_clk(adc_clk1),
@@ -267,6 +232,53 @@ end
 //    end
 //end
 
+
+    //Creating pRNG
+    reg [31:0]x0;
+    reg [31:0]y0;
+    reg [31:0]g;
+    reg [31:0]m1;
+    reg [31:0]m2;
+    reg [31:0]l1;
+    reg [31:0]l2;
+//    wire[31:0]x_1;
+//    wire[31:0]x_2;
+//    wire[31:0]y_1;
+//    wire[31:0]y_2;
+//    wire[31:0]RNG;
+
+    //num num_u0(sign,int,dec);
+    Math MATH(A,B);
+    function [31:0] bin;
+    input [0:0]sign;
+    input [7:0]int;
+    input [22:0]dec;
+    reg [31:0] binary;
+        begin
+        binary[31] = sign;
+        binary[30:23] = int;
+        binary[22:0] = dec;
+        bin = binary;
+        end
+    endfunction
+    
+    always @ (posedge clk) begin
+    //x0 = bin(1,8'd2,23'd17);
+    x0 =bin(adc_data_mode3[11],adc_data_mode3[10:4],adc_data_mode3[3:0]); //location of center - X
+    y0 =bin(adc_data_mode0[11],adc_data_mode0[10:4],adc_data_mode0[3:0]); //location of center - Y
+    g = bin(0,ADC_data[15:8],ADC_data[7:0]); //gravity
+    m1 =bin(DXR[15],DXR[14:7],DXR[6:0]); //mass 1 change this
+    m2 =bin(adc_data_mode1[11],adc_data_mode1[10:4],adc_data_mode1[3:0]); //mass 2 change this
+    l1 =bin(DYR[15],DYR[14:7],DYR[6:0]); //length 1 change this
+    l2 =bin(adc_data_mode2[11],adc_data_mode2[10:4],adc_data_mode2[3:0]); //length 2 change this
+    end
+    DP dp(clk,x0,y0,g,m1,m2,l1,l2,RNG,x_1, x_2,y_1,y_2);
+    //adc_data_mode0 1 2 3
+    
+
+//7SEGMENT DISPLAY CONFIG;
+reg [11:0] Segment_data;
+drv_segment segment_u0(rstn,CLK500Hz,{4'h0,Segment_data},{pio43,pio46,pio47,pio37},{pio40,pio38,pio45,pio42,pio41,pio39,pio48,pio44});
 
 //UART START------------------------------------//
 

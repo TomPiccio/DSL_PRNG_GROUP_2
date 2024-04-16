@@ -41,7 +41,7 @@ module drv_mcp3202(
     input rstn,
     input clk,
     input   ap_ready,
-    output  reg ap_vaild,
+    output  reg ap_valid,
     input   [1:0] mode,
     output  [11:0] data,
 
@@ -120,11 +120,11 @@ always @(negedge rstn,posedge clk)begin
     if (!rstn) begin
         cnter_read  <= 4'd13;
         Data_Receive <= 13'h00;
-        ap_vaild = 1'b0;
+        ap_valid = 1'b0;
     end else begin
         case (fsm_statu)
             FSM_IDLE : begin
-                ap_vaild = 1'b0; 
+                ap_valid = 1'b0; 
                 cnter_read  <= 4'd13;
             end
             FSM_WRIT : begin 
@@ -134,7 +134,7 @@ always @(negedge rstn,posedge clk)begin
                 cnter_read <= cnter_read - 1'b1;
                 Data_Receive[cnter_read] <= port_din;
             end
-            FSM_STOP : ap_vaild = 1'b1;
+            FSM_STOP : ap_valid = 1'b1;
             default  : ;
         endcase
     end

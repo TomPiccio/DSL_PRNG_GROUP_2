@@ -21,7 +21,7 @@
 
 
 module drv_mcp3202_2(
-input rstn,
+    input rstn,
     input clk,
     input   ap_ready,
     output  reg ap_valid,
