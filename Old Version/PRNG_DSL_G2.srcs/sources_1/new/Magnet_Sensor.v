@@ -22,6 +22,7 @@ module magnet_sensor(input clk, input rst, inout i2c_sda, inout wire i2c_scl, in
     STATE_READ_DATA = 4'h6;
     
     reg [2:0] state_num = STATE_INIT;
+    
     localparam INIT_DATA_LEN = 7;
     reg [8:0] init_data [INIT_DATA_LEN-1:0];
     localparam HMC5883L_ADDR = 7'h3C;
