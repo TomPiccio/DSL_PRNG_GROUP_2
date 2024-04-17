@@ -22,71 +22,76 @@
 
 module prng_top_module(
     input clk, 
-    input btnR, 
+    input btnR,
+    input btnL, 
+    output [1:0]led
     
-    //Magnet Sensor I2C Inputs
-    inout i2c_sda,
-    inout wire i2c_scl,
-    input sensor_drdy,
+//    //Magnet Sensor I2C Inputs
+//    inout i2c_sda,
+//    inout wire i2c_scl,
+//    input sensor_drdy,
     
-    //External ADC Pin
-    input port_din,
+//    //External ADC Pin
+//    input port_din,
     
-    //Debug Outputs
-    //output [1:0] led,
-    //output [2:0] led_rgb,
+//    //Debug Outputs
+//    //output [1:0] led,
+//    //output [2:0] led_rgb,
     
-    //Variables for RNG
-    //input [31:0]A, //1 pos/neg bit, 7 round bits, no decimals
-    //input [31:0]B, //total of 8 bits
-    //input [0:0]sign,
-    //input [7:0]int,
-    //input [22:0]dec,
-    output[31:0]x_1,
-    output[31:0]x_2,
-    output[31:0]y_1,
-    output[31:0]y_2,
-    output[31:0]RNG,
+//    //Variables for RNG
+//    //input [31:0]A, //1 pos/neg bit, 7 round bits, no decimals
+//    //input [31:0]B, //total of 8 bits
+//    //input [0:0]sign,
+//    //input [7:0]int,
+//    //input [22:0]dec,
+//    output[31:0]x_1,
+//    output[31:0]x_2,
+//    output[31:0]y_1,
+//    output[31:0]y_2,
+//    output[31:0]RNG,
     
-    //XADC
-    input [1:0] xa_n,
-    input [1:0] xa_p,
-    input vp_in,
-    input vn_in,
+//    //XADC
+//    input [1:0] xa_n,
+//    input [1:0] xa_p,
+//    input vp_in,
+//    input vn_in,
     
-    //UART , ADC, Display
-    input sysclk,
-    input [1:0] btn,
-    output pio37,
-    output pio38,
-    output pio39,
-    output pio40,
-    output pio41,
-    output pio42,
-    output pio43,
-    output pio44,
-    output pio45,
-    output pio46,
-    output pio47,
-    output pio48,
-    //output [1:0] led, already declared
-    //External ADC MCP3202 1;
-    output adc_din1,
-    output adc_clk1,
-    output adc_csn1,
-    input  adc_dout1,
-    //External ADC MCP3202 2;
-    output adc_din2,
-    output adc_clk2,
-    output adc_csn2,
-    input  adc_dout2,
+//    //UART , ADC, Display
+//    input sysclk,
+//    input [1:0] btn,
+//    output pio18,
+////    output pio37,
+////    output pio38,
+////    output pio39,
+////    output pio40,
+////    output pio41,
+////    output pio42,
+////    output pio43,
+////    output pio44,
+////    output pio45,
+////    output pio46,
+////    output pio47,
+////    output pio48,
+//    //output [1:0] led, already declared
+//    //External ADC MCP3202 1;
+//    output adc_din1,
+//    output adc_clk1,
+//    output adc_csn1,
+//    input  adc_dout1,
+//    //External ADC MCP3202 2;
+//    output adc_din2,
+//    output adc_clk2,
+//    output adc_csn2,
+//    input  adc_dout2,
     
-    //UART
-    input pio20, //UART - RX;
-    output pio21 //UART - TX;    
+//    //UART
+//    input pio20, //UART - RX;
+//    output pio21 //UART - TX;    
     );
-    
-    wire rst, rstn;
+    assign led0 = btnL;
+    assign led1 = btnR;
+    wire rst, rstn, strt;
+    assign strt = ~btnL;
     assign rst = btnR;
     assign rstn = ~btnR;
     //Clock
@@ -264,13 +269,20 @@ end
     
     always @ (posedge clk) begin
     //x0 = bin(1,8'd2,23'd17);
-    x0 =bin(adc_data_mode3[11],adc_data_mode3[10:4],adc_data_mode3[3:0]); //location of center - X
-    y0 =bin(adc_data_mode0[11],adc_data_mode0[10:4],adc_data_mode0[3:0]); //location of center - Y
-    g = bin(0,ADC_data[15:8],ADC_data[7:0]); //gravity
-    m1 =bin(DXR[15],DXR[14:7],DXR[6:0]); //mass 1 change this
-    m2 =bin(adc_data_mode1[11],adc_data_mode1[10:4],adc_data_mode1[3:0]); //mass 2 change this
-    l1 =bin(DYR[15],DYR[14:7],DYR[6:0]); //length 1 change this
-    l2 =bin(adc_data_mode2[11],adc_data_mode2[10:4],adc_data_mode2[3:0]); //length 2 change this
+//    x0 =bin(adc_data_mode3[11],adc_data_mode3[10:4],adc_data_mode3[3:0]); //location of center - X
+//    y0 =bin(adc_data_mode0[11],adc_data_mode0[10:4],adc_data_mode0[3:0]); //location of center - Y
+//    g = bin(0,ADC_data[15:8],ADC_data[7:0]); //gravity
+//    m1 =bin(DXR[15],DXR[14:7],DXR[6:0]); //mass 1 change this
+//    m2 =bin(adc_data_mode1[11],adc_data_mode1[10:4],adc_data_mode1[3:0]); //mass 2 change this
+//    l1 =bin(DYR[15],DYR[14:7],DYR[6:0]); //length 1 change this
+//    l2 =bin(adc_data_mode2[11],adc_data_mode2[10:4],adc_data_mode2[3:0]); //length 2 change this
+x0 =bin(1,8'd2,23'd17); //location of center - X
+y0 =bin(0,8'd7,23'd33); //location of center - Y
+g = bin(0,8'd2,23'd05); //gravity
+m1 =bin(0,8'd3,23'd50); //mass 1 change this
+m2 =bin(0,8'd5,23'd50); //mass 2 change this
+l1 =bin(0,8'd30,23'd03); //length 1 change this
+l2 =bin(0,8'd69,23'd96); //length 2 change this
     end
     DP dp(clk,x0,y0,g,m1,m2,l1,l2,RNG,x_1, x_2,y_1,y_2);
     //adc_data_mode0 1 2 3
@@ -288,7 +300,7 @@ reg data_index;
 reg uart_tx_data;
 reg [31:0] data_array;
 
-always@(posedge CLK500Hz,negedge rstn)begin
+always@(posedge CLK1Hz,negedge rstn)begin
     if (!rstn)begin
         uart_ready <= 1'b0;
     end else begin
@@ -297,7 +309,7 @@ always@(posedge CLK500Hz,negedge rstn)begin
     end
 end
 
-always @(posedge sysclk) begin
+always @(posedge CLK1Hz) begin
     if (~btn[1]) begin
         data_index <= 2'b00;
     end else begin
@@ -310,8 +322,7 @@ always @(posedge sysclk) begin
     end
 end
 
-always @(posedge CLK9600) begin
-    data_array = RNG;
-end
+
+//assign pio18 = data_array;
 //UART END-------------------------------------------------------//
 endmodule

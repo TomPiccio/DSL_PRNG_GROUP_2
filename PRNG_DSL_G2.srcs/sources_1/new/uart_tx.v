@@ -5,8 +5,7 @@ module uart_tx(
     output  reg ap_valid,   //Task has finished / Idle
     output  reg tx,
     input   parity,
-    input  [31:0] data,
-    output [2:0] rgb_led
+    input  [31:0] data
 );
 
 localparam  FSM_IDLE = 3'b000,
@@ -21,7 +20,7 @@ reg [2:0] fsm_statu;
 reg [2:0] fsm_next;
 reg [2:0] cnter;
 reg [2:0] byte_cntr;
-assign rgb_led = fsm_statu;
+//assign rgb_led = fsm_statu;
 
 //fsm statu transfer;
 always @(posedge clk, negedge ap_rstn) begin

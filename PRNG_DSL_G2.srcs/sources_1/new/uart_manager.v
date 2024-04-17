@@ -5,9 +5,7 @@ module uart_manager(
         input rst,
         input [31:0] data_in,
         input pio20, //UART - RX;
-        output pio21, //UART - TX;
-        output [1:0] led,
-        output [2:0] ledrgb
+        output pio21 //UART - TX;
 );
 
 wire CLK500Hz,CLK9600,CLK50Hz;
@@ -25,10 +23,8 @@ defparam clk_div_u2.FREQ_OUTPUT = 50;
 reg uart_ready;
 wire uart_valid;
 
-wire [2:0] rgb_led;
-assign ledrgb = ~rgb_led;
 //uart_rx uart_rx_u0(CLK9600,rstn,uart_ready,uart_valid,pio20,1'b0,uart_rx_data);
-uart_tx uart_tx_u0(CLK9600,rstn,uart_ready,uart_valid,pio21,1'b0,data_in,rgb_led);
+uart_tx uart_tx_u0(CLK9600,rstn,uart_ready,uart_valid,pio21,1'b0,data_in);
 
 reg [5:0] out_counter;
 reg [2:0] byte_counter;
