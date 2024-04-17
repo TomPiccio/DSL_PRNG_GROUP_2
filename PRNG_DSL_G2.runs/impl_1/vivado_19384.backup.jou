@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2023.1 (64-bit)
+# SW Build 3865809 on Sun May  7 15:05:29 MDT 2023
+# IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+# SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+# Start of session at: Tue Apr 16 19:35:17 2024
+# Process ID: 19384
+# Current directory: C:/Users/Administrator.LAPTOP-S0NU6TDL/Documents/DSL_1D/.git/DSL_PRNG_GROUP_2/PRNG_DSL_G2.runs/impl_1
+# Command line: vivado.exe -log uart_manager.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source uart_manager.tcl -notrace
+# Log file: C:/Users/Administrator.LAPTOP-S0NU6TDL/Documents/DSL_1D/.git/DSL_PRNG_GROUP_2/PRNG_DSL_G2.runs/impl_1/uart_manager.vdi
+# Journal file: C:/Users/Administrator.LAPTOP-S0NU6TDL/Documents/DSL_1D/.git/DSL_PRNG_GROUP_2/PRNG_DSL_G2.runs/impl_1\vivado.jou
+# Running On: LAPTOP-S0NU6TDL, OS: Windows, CPU Frequency: 2592 MHz, CPU Physical cores: 6, Host memory: 17073 MB
+#-----------------------------------------------------------
+source uart_manager.tcl -notrace
