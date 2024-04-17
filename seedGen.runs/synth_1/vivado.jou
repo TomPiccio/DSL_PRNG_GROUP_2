@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2023.1 (64-bit)
+# SW Build 3865809 on Sun May  7 15:05:29 MDT 2023
+# IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+# SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+# Start of session at: Wed Apr 17 20:52:53 2024
+# Process ID: 3312
+# Current directory: C:/Users/Administrator.LAPTOP-S0NU6TDL/OneDrive - Singapore University of Technology and Design/10. Term 6/Digital Systems Lab/seedGen/seedGen.runs/synth_1
+# Command line: vivado.exe -log top_module.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source top_module.tcl
+# Log file: C:/Users/Administrator.LAPTOP-S0NU6TDL/OneDrive - Singapore University of Technology and Design/10. Term 6/Digital Systems Lab/seedGen/seedGen.runs/synth_1/top_module.vds
+# Journal file: C:/Users/Administrator.LAPTOP-S0NU6TDL/OneDrive - Singapore University of Technology and Design/10. Term 6/Digital Systems Lab/seedGen/seedGen.runs/synth_1\vivado.jou
+# Running On: LAPTOP-S0NU6TDL, OS: Windows, CPU Frequency: 2592 MHz, CPU Physical cores: 6, Host memory: 17073 MB
+#-----------------------------------------------------------
+source top_module.tcl -notrace
