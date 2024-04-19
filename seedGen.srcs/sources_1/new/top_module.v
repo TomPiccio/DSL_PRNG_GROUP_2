@@ -38,7 +38,19 @@ module top_module(
     input [1:0] xa_n,
     input [1:0] xa_p,
     input vp_in,
-    input vn_in
+    input vn_in,
+    
+    //ADC
+    //External ADC MCP3202 1;
+    output adc_din1,
+    output adc_clk1,
+    output adc_csn1,
+    input  adc_dout1,
+    //External ADC MCP3202 2;
+    output adc_din2,
+    output adc_clk2,
+    output adc_csn2,
+    input  adc_dout2
     );
     
     //Magnet Sensor Variables

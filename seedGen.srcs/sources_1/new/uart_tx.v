@@ -19,7 +19,7 @@ localparam  FSM_IDLE = 3'b000,
 reg [2:0] fsm_statu;
 reg [2:0] fsm_next;
 reg [2:0] cnter;
-reg [2:0] byte_cntr;
+reg [3:0] byte_cntr;
 //assign rgb_led = fsm_statu;
 
 //fsm statu transfer;
@@ -52,7 +52,7 @@ always @(*)begin
             end
             FSM_PARI: fsm_next <= FSM_STOP;
             FSM_STOP:begin 
-                fsm_next <= (ap_ready) ? FSM_STOP : (byte_cntr < 3'h3) ? FSM_LOOP : FSM_IDLE;
+                fsm_next <= (ap_ready) ? FSM_STOP : (byte_cntr < 4'h7) ? FSM_LOOP : FSM_IDLE;
             end
             FSM_LOOP: begin
                 fsm_next <= (ap_ready) ? FSM_STAR : FSM_LOOP;
