@@ -1,5 +1,7 @@
 # 30.110 Digital Systems Lab 2D Project: Pseudo Random Number Generator (PRNG)
 
+![Final Prototype](https://github.com/TomPiccio/DSL_PRNG_GROUP_2/raw/main/Final_Prototype.jpg)
+
 ## Group 2 Members
 - Gabriel Jabile (Student ID: 1008656)
 - Tom Manuel Opalla Piccio (Student ID: 1006293)
