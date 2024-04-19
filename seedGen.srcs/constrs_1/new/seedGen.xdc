@@ -21,14 +21,14 @@ set_property -dict { PACKAGE_PIN A18   IOSTANDARD LVCMOS33 } [get_ports { btnL }
 set_property -dict { PACKAGE_PIN B18   IOSTANDARD LVCMOS33 } [get_ports { btnR }]; #IO_L19P_T3_16 Sch=btn[1]
 
 ## Pmod Header JA
-#set_property -dict { PACKAGE_PIN G17   IOSTANDARD LVCMOS33 } [get_ports {adc_din1}]; #IO_L5N_T0_D07_14 Sch=ja[1]
-#set_property -dict { PACKAGE_PIN G19   IOSTANDARD LVCMOS33 } [get_ports {adc_dout1}]; #IO_L4N_T0_D05_14 Sch=ja[2]
-#set_property -dict { PACKAGE_PIN N18   IOSTANDARD LVCMOS33 } [get_ports {adc_clk1}]; #IO_L9P_T1_DQS_14 Sch=ja[3]
-#set_property -dict { PACKAGE_PIN L18   IOSTANDARD LVCMOS33 } [get_ports {adc_csn1}]; #IO_L8P_T1_D11_14 Sch=ja[4]
-#set_property -dict {PACKAGE_PIN H17    IOSTANDARD LVCMOS33} [get_ports {adc_din2}];
-#set_property -dict {PACKAGE_PIN H19    IOSTANDARD LVCMOS33} [get_ports {adc_dout2}];
-#set_property -dict {PACKAGE_PIN J19    IOSTANDARD LVCMOS33} [get_ports adc_clk2];
-#set_property -dict {PACKAGE_PIN K18    IOSTANDARD LVCMOS33} [get_ports adc_csn2];
+set_property -dict { PACKAGE_PIN G17   IOSTANDARD LVCMOS33 } [get_ports {adc_din1}]; #IO_L5N_T0_D07_14 Sch=ja[1]
+set_property -dict { PACKAGE_PIN G19   IOSTANDARD LVCMOS33 } [get_ports {adc_dout1}]; #IO_L4N_T0_D05_14 Sch=ja[2]
+set_property -dict { PACKAGE_PIN N18   IOSTANDARD LVCMOS33 } [get_ports {adc_clk1}]; #IO_L9P_T1_DQS_14 Sch=ja[3]
+set_property -dict { PACKAGE_PIN L18   IOSTANDARD LVCMOS33 } [get_ports {adc_csn1}]; #IO_L8P_T1_D11_14 Sch=ja[4]
+set_property -dict {PACKAGE_PIN H17    IOSTANDARD LVCMOS33} [get_ports {adc_din2}];
+set_property -dict {PACKAGE_PIN H19    IOSTANDARD LVCMOS33} [get_ports {adc_dout2}];
+set_property -dict {PACKAGE_PIN J19    IOSTANDARD LVCMOS33} [get_ports adc_clk2];
+set_property -dict {PACKAGE_PIN K18    IOSTANDARD LVCMOS33} [get_ports adc_csn2];
 
 ## Analog XADC Pins
 ## Only declare these if you want to use pins 15 and 16 as single ended analog inputs. pin 15 -> vaux4, pin16 -> vaux12
